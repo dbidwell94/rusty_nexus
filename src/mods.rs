@@ -1,6 +1,6 @@
 pub mod models;
 
-use self::models::{Period, UpdatedModInfo};
+use self::models::{LastAddedModResponse, Period, UpdatedModInfo};
 use crate::NexusApiResult;
 use raxios::{map_string, Raxios, RaxiosOptions};
 use std::{collections::HashMap, rc::Rc};
@@ -63,12 +63,30 @@ impl Mods {
 
         return Ok(response.body.unwrap());
     }
+
+    pub async fn get_last_10_mods_by_game(
+        &self,
+        game_name: &str,
+    ) -> NexusApiResult<Vec<LastAddedModResponse>> {
+        let url = format!("/v1/games/{game_name}/mods/last_added.json");
+
+        let response = self
+            .raxios
+            .get::<Vec<LastAddedModResponse>>(&url, None)
+            .await?;
+
+        if let &None = &response.body {
+            return Err(anyhow::anyhow!("Unable to deserialize response"));
+        }
+
+        return Ok(response.body.unwrap());
+    }
 }
 
 #[cfg(test)]
 mod mods_tests {
-    use crate::NexusApi;
     use super::models::Period;
+    use crate::NexusApi;
 
     #[tokio::test]
     async fn test_get_updated_mods_by_game() {

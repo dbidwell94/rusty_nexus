@@ -15,7 +15,11 @@ pub struct NexusApi {
 
 impl NexusApi {
     pub fn new(api_key: &str) -> Self {
-        let default_headers = map_string! {apikey : api_key};
+        let default_headers = map_string! {
+            "apikey" => api_key,
+            "accept" => "application/json",
+            "content-type" => "application/json"
+        };
 
         let raxios = Raxios::new(
             NEXUS_API_BASE_URL,
