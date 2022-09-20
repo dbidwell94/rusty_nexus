@@ -1,0 +1,16 @@
+[package]
+name = "nexus_api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+raxios = {git = "https://github.com/dbidwell94/raxios", branch = "master"}
+serde = {version = "1.0.144", features = ["derive"]}
+anyhow = {version = "1.0.65"}
+
+[dev-dependencies]
+tokio = {version = "1.21.1", features = ["test-util", "macros"]}
+dotenv = {version = "0.15.0"}
+dotenv_codegen = {version = "0.15.0"}
