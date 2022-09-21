@@ -1,6 +1,6 @@
 pub mod models;
 
-use self::models::{ModInfoResponse, Period, UpdatedModInfo};
+use models::{ModEndorsementResult, ModInfoResponse, Period, UpdatedModInfo};
 use crate::NexusApiResult;
 use raxios::{map_string, Raxios, RaxiosOptions};
 use std::{collections::HashMap, rc::Rc};
@@ -98,6 +98,53 @@ impl Mods {
 
         return Ok(response.body.unwrap());
     }
+
+    pub async fn endorse_mod_by_mod_id(
+        &self,
+        game_name: &str,
+        mod_id: u32,
+        mod_version: &str,
+    ) -> NexusApiResult<ModEndorsementResult> {
+        let url = format!("v1/games/{game_name}/mods/{mod_id}/endorse.json");
+        let data = map_string! {version : mod_version};
+
+        let response = self
+            .raxios
+            .post::<ModEndorsementResult, HashMap<String, String>>(
+                &url,
+                Some(data),
+                Some(RaxiosOptions {
+                    content_type: Some(raxios::ContentType::UrlEncoded),
+                    ..Default::default()
+                }),
+            )
+            .await?;
+
+        return Ok(response.body.unwrap());
+    }
+
+    pub async fn remove_mod_endorsement_by_mod_id(
+        &self,
+        game_name: &str,
+        mod_id: u32,
+        mod_version: &str,
+    ) -> NexusApiResult<ModEndorsementResult> {
+        let url = format!("v1/games/{game_name}/mods/{mod_id}/abstain.json");
+        let data = map_string! {version : mod_version};
+        let res = self
+            .raxios
+            .post::<ModEndorsementResult, HashMap<String, String>>(
+                &url,
+                Some(data),
+                Some(RaxiosOptions {
+                    content_type: Some(raxios::ContentType::UrlEncoded),
+                    ..Default::default()
+                }),
+            )
+            .await?;
+
+        return Ok(res.body.unwrap());
+    }
 }
 
 #[cfg(test)]
@@ -170,7 +217,31 @@ mod tests {
         let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
         let nexus_api = NexusApi::new(api_key);
         let res = nexus_api.mods.get_mod_info_for_game(387, "valheim").await;
-        
+
+        assert_ne!(true, res.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_endorse_mod_by_mod_id() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+        let nexus_api = NexusApi::new(api_key);
+        let res = nexus_api
+            .mods
+            .endorse_mod_by_mod_id("valheim", 387, "0")
+            .await;
+
+        assert_ne!(true, res.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_remove_mod_endorsement_by_mod_id() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+        let nexus_api = NexusApi::new(api_key);
+        let res = nexus_api
+            .mods
+            .remove_mod_endorsement_by_mod_id("valheim", 387, "0")
+            .await;
+
         assert_ne!(true, res.is_err());
     }
 }

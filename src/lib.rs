@@ -1,7 +1,9 @@
-mod mods;
+pub mod mod_files;
+pub mod mods;
 
 use std::rc::Rc;
 
+use mod_files::ModFiles;
 use mods::Mods;
 use raxios::{map_string, Raxios, RaxiosConfig};
 
@@ -11,6 +13,7 @@ const NEXUS_API_BASE_URL: &'static str = "https://api.nexusmods.com/";
 
 pub struct NexusApi {
     pub mods: Mods,
+    pub mod_files: ModFiles,
 }
 
 impl NexusApi {
@@ -31,9 +34,9 @@ impl NexusApi {
         .unwrap();
 
         let raxios = Rc::new(raxios);
-
         let mods = Mods::from(&raxios);
+        let mod_files = ModFiles::from(&raxios);
 
-        Self { mods }
+        Self { mods, mod_files }
     }
 }

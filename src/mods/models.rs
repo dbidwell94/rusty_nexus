@@ -53,6 +53,12 @@ pub struct EndorsementInfo {
     version: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ModEndorsementResult {
+    message: String,
+    status: String,
+}
+
 pub enum Period {
     Day,
     Week,
