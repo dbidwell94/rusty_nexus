@@ -1,6 +1,6 @@
 pub mod models;
 
-use self::models::{LastAddedModResponse, Period, UpdatedModInfo};
+use self::models::{ModInfoResponse, Period, UpdatedModInfo};
 use crate::NexusApiResult;
 use raxios::{map_string, Raxios, RaxiosOptions};
 use std::{collections::HashMap, rc::Rc};
@@ -59,13 +59,42 @@ impl Mods {
     pub async fn get_lastest_10_mods_by_game(
         &self,
         game_name: &str,
-    ) -> NexusApiResult<Vec<LastAddedModResponse>> {
+    ) -> NexusApiResult<Vec<ModInfoResponse>> {
         let url = format!("/v1/games/{game_name}/mods/latest_added.json");
 
-        let response = self
-            .raxios
-            .get::<Vec<LastAddedModResponse>>(&url, None)
-            .await?;
+        let response = self.raxios.get::<Vec<ModInfoResponse>>(&url, None).await?;
+
+        return Ok(response.body.unwrap());
+    }
+
+    pub async fn get_latest_10_updated_mods_by_game(
+        &self,
+        game_name: &str,
+    ) -> NexusApiResult<Vec<ModInfoResponse>> {
+        let url = format!("/v1/games/{game_name}/mods/latest_updated.json");
+
+        let res = self.raxios.get::<Vec<ModInfoResponse>>(&url, None).await?;
+
+        return Ok(res.body.unwrap());
+    }
+
+    pub async fn get_top_10_trending_mods_by_game(
+        &self,
+        game_name: &str,
+    ) -> NexusApiResult<Vec<ModInfoResponse>> {
+        let url = format!("v1/games/{game_name}/mods/trending.json");
+        let response = self.raxios.get::<Vec<ModInfoResponse>>(&url, None).await?;
+
+        return Ok(response.body.unwrap());
+    }
+
+    pub async fn get_mod_info_for_game(
+        &self,
+        mod_id: u32,
+        game_name: &str,
+    ) -> NexusApiResult<ModInfoResponse> {
+        let url = format!("v1/games/{game_name}/mods/{mod_id}.json");
+        let response = self.raxios.get::<ModInfoResponse>(&url, None).await?;
 
         return Ok(response.body.unwrap());
     }
@@ -108,5 +137,40 @@ mod tests {
         let result = nexus_api.mods.get_lastest_10_mods_by_game("valheim").await;
 
         assert_ne!(true, result.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_get_latest_10_updated_mods_by_game() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+
+        let nexus_api = NexusApi::new(api_key);
+
+        let res = nexus_api
+            .mods
+            .get_latest_10_updated_mods_by_game("valheim")
+            .await;
+
+        assert_ne!(true, res.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_get_top_10_trending_mods_by_game() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+        let nexus_api = NexusApi::new(api_key);
+        let res = nexus_api
+            .mods
+            .get_latest_10_updated_mods_by_game("valheim")
+            .await;
+
+        assert_ne!(true, res.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_get_mod_info_for_game() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+        let nexus_api = NexusApi::new(api_key);
+        let res = nexus_api.mods.get_mod_info_for_game(387, "valheim").await;
+        
+        assert_ne!(true, res.is_err());
     }
 }

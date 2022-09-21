@@ -10,7 +10,7 @@ pub struct UpdatedModInfo {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct LastAddedModResponse {
+pub struct ModInfoResponse {
     name: Option<String>,
     summary: Option<String>,
     description: Option<String>,
@@ -36,7 +36,7 @@ pub struct LastAddedModResponse {
     status: String,
     available: bool,
     user: Option<UserInfo>,
-    endorsement: Option<String>,
+    endorsement: Option<EndorsementInfo>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -44,6 +44,13 @@ pub struct UserInfo {
     member_id: u32,
     member_group_id: u16,
     name: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct EndorsementInfo {
+    endorse_status: String,
+    timestamp: Option<u64>,
+    version: Option<String>,
 }
 
 pub enum Period {
