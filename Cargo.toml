@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 raxios = {git = "https://github.com/dbidwell94/raxios", branch = "master"}
 serde = {version = "1.0.144", features = ["derive"]}
+serde_json = {version = "1.0.85"}
 anyhow = {version = "1.0.65"}
 
 [dev-dependencies]

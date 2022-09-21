@@ -11,12 +11,12 @@ pub struct UpdatedModInfo {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LastAddedModResponse {
-    name: String,
-    summary: String,
-    description: String,
-    picture_url: String,
-    mod_downloads: u32,
-    mod_unique_downloads: u32,
+    name: Option<String>,
+    summary: Option<String>,
+    description: Option<String>,
+    picture_url: Option<String>,
+    mod_downloads: Option<u32>,
+    mod_unique_downloads: Option<u32>,
     uid: u64,
     mod_id: u32,
     game_id: u32,
@@ -25,22 +25,23 @@ pub struct LastAddedModResponse {
     category_id: u16,
     version: String,
     endorsement_count: u32,
-    created_time: String,
     created_timestamp: u64,
-    updated_time: String,
+    created_time: String,
     updated_timestamp: u64,
+    updated_time: String,
     author: String,
     uploaded_by: String,
-    uploaded_users_profile_url: String,
+    uploaded_users_profile_url: Option<String>,
     contains_adult_content: bool,
     status: String,
     available: bool,
-    user: UserInfo,
+    user: Option<UserInfo>,
+    endorsement: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct UserInfo {
-    member_id: u64,
+    member_id: u32,
     member_group_id: u16,
     name: String,
 }

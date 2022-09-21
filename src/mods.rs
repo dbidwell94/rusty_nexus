@@ -38,10 +38,6 @@ impl Mods {
             )
             .await?;
 
-        if let &None = &to_return.body {
-            return Err(anyhow::anyhow!("Unable to serialize data"));
-        }
-
         Ok(to_return.body.unwrap())
     }
 
@@ -57,34 +53,26 @@ impl Mods {
             .get::<HashMap<String, Vec<String>>>(&url, None)
             .await?;
 
-        if let &None = &response.body {
-            return Err(anyhow::anyhow!("Unable to serialize body"));
-        }
-
         return Ok(response.body.unwrap());
     }
 
-    pub async fn get_last_10_mods_by_game(
+    pub async fn get_lastest_10_mods_by_game(
         &self,
         game_name: &str,
     ) -> NexusApiResult<Vec<LastAddedModResponse>> {
-        let url = format!("/v1/games/{game_name}/mods/last_added.json");
+        let url = format!("/v1/games/{game_name}/mods/latest_added.json");
 
         let response = self
             .raxios
             .get::<Vec<LastAddedModResponse>>(&url, None)
             .await?;
 
-        if let &None = &response.body {
-            return Err(anyhow::anyhow!("Unable to deserialize response"));
-        }
-
         return Ok(response.body.unwrap());
     }
 }
 
 #[cfg(test)]
-mod mods_tests {
+mod tests {
     use super::models::Period;
     use crate::NexusApi;
 
@@ -108,6 +96,16 @@ mod mods_tests {
         let nexus_api = NexusApi::new(api_key);
 
         let result = nexus_api.mods.get_changelog_by_mod_id("valheim", 387).await;
+
+        assert_ne!(true, result.is_err());
+    }
+
+    #[tokio::test]
+    async fn test_get_last_10_mods_by_name() {
+        let api_key: &str = dotenv_codegen::dotenv!("NEXUS_API_KEY");
+        let nexus_api = NexusApi::new(api_key);
+
+        let result = nexus_api.mods.get_lastest_10_mods_by_game("valheim").await;
 
         assert_ne!(true, result.is_err());
     }
