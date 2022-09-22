@@ -1,5 +1,5 @@
 [package]
-name = "nexus_api"
+name = "nexus_mods_api"
 version = "0.0.1-alpha"
 edition = "2021"
 license = "MIT"
