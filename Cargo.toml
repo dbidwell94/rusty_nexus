@@ -1,7 +1,11 @@
 [package]
 name = "nexus_api"
-version = "0.1.0"
+version = "0.0.1-alpha"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/dbidwell94/rusty_nexus"
+authors = ["Devin Bidwell <dbidwell94@gmail.com>"]
+keywords = ["Nexus", "Mods", "Raxios", "API", "Wrapper"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
