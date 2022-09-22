@@ -59,6 +59,7 @@ pub struct ModEndorsementResult {
     status: String,
 }
 
+#[derive(Clone)]
 pub enum Period {
     Day,
     Week,
@@ -72,5 +73,11 @@ impl Display for Period {
             Period::Week => write!(f, "1w"),
             Period::Month => write!(f, "1m"),
         }
+    }
+}
+
+impl From<Period> for String {
+    fn from(p: Period) -> Self {
+        format!("{p}")
     }
 }
