@@ -6,6 +6,7 @@ license = "MIT"
 repository = "https://github.com/dbidwell94/rusty_nexus"
 authors = ["Devin Bidwell <dbidwell94@gmail.com>"]
 keywords = ["Nexus", "Mods", "Raxios", "API", "Wrapper"]
+description = "Rust wrapper for the official Nexus Mods API"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
