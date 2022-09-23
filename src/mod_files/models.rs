@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone)]
 pub enum ModFileCategory {
@@ -38,38 +38,38 @@ impl From<ModFileCategory> for String {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ListFilesResponse {
     files: Vec<GameFileInfo>,
-    file_updates: Vec<GameFileUpdatesInfo>
+    file_updates: Vec<GameFileUpdatesInfo>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GameFileInfo {
-    id: Vec<u32>,
-    uid: u64,
-    file_id: u32,
-    name: String,
-    version: String,
-    category_id: u16,
-    category_name: Option<String>,
-    is_primary: bool,
-    size: u32,
-    file_name: String,
-    uploaded_timestamp: u64,
-    uploaded_time: String,
-    mod_version:String,
-    external_virus_scan_url: String,
-    description: String,
-    size_kb: u16,
-    size_in_bytes: u64,
-    changelog_html: Option<String>,
-    content_preview_link: String
+    pub id: Vec<u32>,
+    pub uid: u64,
+    pub file_id: u32,
+    pub name: String,
+    pub version: String,
+    pub category_id: u16,
+    pub category_name: Option<String>,
+    pub is_primary: bool,
+    pub size: u32,
+    pub file_name: String,
+    pub uploaded_timestamp: u64,
+    pub uploaded_time: String,
+    pub mod_version: String,
+    pub external_virus_scan_url: String,
+    pub description: String,
+    pub size_kb: u16,
+    pub size_in_bytes: u64,
+    pub changelog_html: Option<String>,
+    pub content_preview_link: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct GameFileUpdatesInfo {
-    old_file_id: u32,
-    new_file_id: u32,
-    old_file_name: String,
-    new_file_name: String,
-    uploaded_timestamp: u64,
-    uploaded_time: String
+    pub old_file_id: u32,
+    pub new_file_id: u32,
+    pub old_file_name: String,
+    pub new_file_name: String,
+    pub uploaded_timestamp: u64,
+    pub uploaded_time: String,
 }
