@@ -3,14 +3,14 @@ pub mod models;
 use models::{ModEndorsementResult, ModInfoResponse, Period, UpdatedModInfo};
 use crate::NexusApiResult;
 use raxios::{map_string, Raxios, RaxiosOptions};
-use std::{collections::HashMap, rc::Rc};
+use std::{collections::HashMap, rc::Rc, sync::Arc};
 
 pub struct Mods {
-    raxios: Rc<Raxios>,
+    raxios: Arc<Raxios>,
 }
 
-impl From<&Rc<Raxios>> for Mods {
-    fn from(raxios: &Rc<Raxios>) -> Self {
+impl From<&Arc<Raxios>> for Mods {
+    fn from(raxios: &Arc<Raxios>) -> Self {
         Self {
             raxios: raxios.clone(),
         }

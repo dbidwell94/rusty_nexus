@@ -1,7 +1,7 @@
 pub mod mod_files;
 pub mod mods;
 
-use std::rc::Rc;
+use std::{rc::Rc, sync::Arc};
 
 use mod_files::ModFiles;
 use mods::Mods;
@@ -31,7 +31,7 @@ impl NexusApi {
         )
         .unwrap();
 
-        let raxios = Rc::new(raxios);
+        let raxios = Arc::new(raxios);
         let mods = Mods::from(&raxios);
         let mod_files = ModFiles::from(&raxios);
 

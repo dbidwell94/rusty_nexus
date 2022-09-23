@@ -2,16 +2,16 @@ pub mod models;
 
 use models::{GameFileInfo, ListFilesResponse, ModFileCategory};
 use raxios::{map_string, Raxios, RaxiosOptions};
-use std::rc::Rc;
+use std::{rc::Rc, sync::Arc};
 
 use crate::NexusApiResult;
 
 pub struct ModFiles {
-    raxios: Rc<Raxios>,
+    raxios: Arc<Raxios>,
 }
 
-impl From<&Rc<Raxios>> for ModFiles {
-    fn from(raxios: &Rc<Raxios>) -> Self {
+impl From<&Arc<Raxios>> for ModFiles {
+    fn from(raxios: &Arc<Raxios>) -> Self {
         Self {
             raxios: raxios.clone(),
         }
