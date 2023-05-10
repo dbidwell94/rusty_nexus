@@ -2,7 +2,7 @@ pub mod models;
 
 use models::{GameFileInfo, ListFilesResponse, ModFileCategory, DownloadLink};
 use raxios::{map_string, Raxios, RaxiosOptions};
-use std::{rc::Rc, sync::Arc};
+use std::sync::Arc;
 
 use crate::NexusApiResult;
 
