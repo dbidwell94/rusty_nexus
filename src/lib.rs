@@ -1,7 +1,7 @@
 pub mod mod_files;
 pub mod mods;
 
-use std::{rc::Rc, sync::Arc};
+use std::sync::Arc;
 
 use mod_files::ModFiles;
 use mods::Mods;

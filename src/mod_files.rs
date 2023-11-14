@@ -1,8 +1,8 @@
 pub mod models;
 
-use models::{GameFileInfo, ListFilesResponse, ModFileCategory};
+use models::{GameFileInfo, ListFilesResponse, ModFileCategory, DownloadLink};
 use raxios::{map_string, Raxios, RaxiosOptions};
-use std::{rc::Rc, sync::Arc};
+use std::sync::Arc;
 
 use crate::NexusApiResult;
 
@@ -49,8 +49,30 @@ impl ModFiles {
         return Ok(res.body.unwrap());
     }
 
-    pub async fn get_download_link_by_file_id(&self, game_name: &str, mod_id: u32, file_id: u32) {
-        todo!();
+    pub async fn get_download_link_by_file_id_premium(
+        &self,
+        game_name: &str,
+        mod_id: u32,
+        file_id: u32,
+    ) -> NexusApiResult<Vec<DownloadLink>> {
+        let url = format!("v1/games/{game_name}/mods/{mod_id}/files/{file_id}/download_link.json");
+
+        let res = self.raxios.get::<Vec<DownloadLink>>(&url, None).await?;
+        return Ok(res.body.unwrap());
+    }
+
+    pub async fn get_download_link_by_file_id(
+        &self,
+        game_name: &str,
+        mod_id: u32,
+        file_id: u32,
+        key: String,
+        expires: String,
+    ) -> NexusApiResult<Vec<DownloadLink>> {
+        let url = format!("v1/games/{game_name}/mods/{mod_id}/files/{file_id}/download_link.json?key={key}&expires={expires}");
+
+        let res = self.raxios.get::<Vec<DownloadLink>>(&url, None).await?;
+        return Ok(res.body.unwrap());
     }
 }
 

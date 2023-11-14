@@ -3,7 +3,7 @@ pub mod models;
 use models::{ModEndorsementResult, ModInfoResponse, Period, UpdatedModInfo};
 use crate::NexusApiResult;
 use raxios::{map_string, Raxios, RaxiosOptions};
-use std::{collections::HashMap, rc::Rc, sync::Arc};
+use std::{collections::HashMap, sync::Arc};
 
 pub struct Mods {
     raxios: Arc<Raxios>,

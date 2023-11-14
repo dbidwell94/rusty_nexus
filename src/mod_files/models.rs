@@ -73,3 +73,11 @@ pub struct GameFileUpdatesInfo {
     pub uploaded_timestamp: u64,
     pub uploaded_time: String,
 }
+
+#[derive(Serialize, Deserialize, Debug)]
+#[allow(non_snake_case)]
+pub struct DownloadLink {
+    pub name: String,
+    pub short_name: String,
+    pub URI: String
+}
